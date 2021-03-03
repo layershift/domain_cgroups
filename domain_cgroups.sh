@@ -39,12 +39,13 @@ function get_users {
 function get_memory {
         echo "User ,Domain ,Current ,MB ,Max ,MB"
         while read -r user; do
+        local name=`id -un -- $user`
         local domain=`grep $user /etc/passwd | head -1 | awk -F ":" '{print $1" "$6}' | awk -F "/" '{print $5}'`
         local value_current=`cat $system$user.slice/$current_memory`
         local current=$(( $value_current/1024/1024))
         local value_max=`cat $system$user.slice/$max_memory`
         local max=$(( $value_max/1024/1024))
-        echo -e "$user ,$domain ,$current ,MB ,$max ,MB" 
+        echo -e "$name ,$domain ,$current ,MB ,$max ,MB" 
         done < "$users_list"
         }
 
