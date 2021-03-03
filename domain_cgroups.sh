@@ -147,4 +147,5 @@ function trimString()
 #####/table functions######
 get_users
 get_memory > $logfile
-printTable ',' "$(cat $logfile)"
+printTable ',' "$(cat $logfile)" > $logfile
+cat $logfile | (sed -u 3q; sort --k 10 -n -r)
