@@ -149,4 +149,17 @@ function trimString()
 get_users
 get_memory > $logfile
 printTable ',' "$(cat $logfile)" > $logfile
-cat $logfile | (sed -u 3q; sort --k 10 -n -r)
+
+echo -e "Do you want the table sorted based on highest Ram usage, or based on current Ram usage?"
+echo -e "1. Current Ram Usage"
+echo -e "2. Highest Ram Usage"
+
+read filter
+
+if [ $filter = "1" ]
+    then
+    cat $logfile | (sed -u 3q; sort --k 6 -n -r)
+elif [ $filter = "2" ]
+    then
+    cat $logfile | (sed -u 3q; sort --k 10 -n -r)
+fi
