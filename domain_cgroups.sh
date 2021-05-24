@@ -30,10 +30,7 @@ fi
  touch $logfile
 
 function get_users {
-        find /sys/fs/cgroup/memory/user.slice/* -type d  > $users_list
-        sed -i 's/\/sys\/fs\/cgroup\/memory\/user.slice\/user-//g' $users_list 
-        sed -i 's/.slice//g' $users_list 
-        sed -i -e "1d" $users_list 
+for i in `find /sys/fs/cgroup/memory/user.slice/* -type d | awk -F "-" {'print $2'} | awk -F "." {'print $1'} | awk '(NR>1)'`; do getent passwd $i; done | awk -F ":" {'print $3'} > $users_list
 }
 
 function get_memory {
